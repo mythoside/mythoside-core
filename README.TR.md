@@ -5,8 +5,8 @@
 # Mythos Core
 
 [![License: FSL-1.1-ALv2](https://img.shields.io/badge/license-FSL--1.1--ALv2-blue)](./LICENSE.md)
-[![GitHub Discussions](https://img.shields.io/github/discussions/Mythos-IDE/mythoside-core)](https://github.com/Mythos-IDE/mythoside-core/discussions)
-[![GitHub issues](https://img.shields.io/github/issues/Mythos-IDE/mythoside-core)](https://github.com/Mythos-IDE/mythoside-core/issues)
+[![GitHub Discussions](https://img.shields.io/github/discussions/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/discussions)
+[![GitHub issues](https://img.shields.io/github/issues/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/issues)
 
 <p align="center"><a href="./README.md">English</a> · Türkçe</p>
 
@@ -28,14 +28,14 @@ Mythos; Scrivener gibi araçların yapılandırılmış, uzun soluklu yazma yakl
 Mythos, biri yerel client biri yerel sunucu olan iki ayrı repo'ya bölünmüştür:
 
 - **Bu repo (`mythoside-core`)** — motor katmanı. Hiçbir Tauri veya arayüz bağımlılığı olmayan bağımsız bir Rust crate'i (kütüphane + binary): elyazması veri modeli, Markdown+YAML dosya formatı, native dosya izleme, ve entity işlemleri (karakter/sahne vb. oluşturma/okuma/güncelleme/silme). Kendi stdin/stdout'u üzerinden JSON-RPC benzeri bir protokol konuşan küçük bir yerel sunucu process'i olarak çalışır — asla bir ağ portu açmaz, bu yüzden kendisini başlatan process dışında makinedeki hiçbir şey ona erişemez.
-- [`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts) — masaüstü client'ı. Bu crate'in binary'sini yönetilen bir "sidecar" process olarak başlatan ve ona proxy yapan bir Tauri + TypeScript uygulaması. Tüm arayüz, editör ve render işi orada gerçekleşir; bu repo'da hiçbiri yok.
+- [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — masaüstü client'ı. Bu crate'in binary'sini yönetilen bir "sidecar" process olarak başlatan ve ona proxy yapan bir Tauri + TypeScript uygulaması. Tüm arayüz, editör ve render işi orada gerçekleşir; bu repo'da hiçbiri yok.
 
 Neden tek binary yerine iki process: gerçek yazma/parse mantığını yeniden kullanılabilir ve bağımsız test edilebilir tutar (buradaki `cargo test` arayüz, Tauri veya pencere gerektirmez), ve local-first garantisini sadece bir vaat değil yapısal bir gerçek hâline getirir — bu crate asla bir port dinlemez, yani bir tarayıcı sekmesinin ya da başka bir yerel process'in araştırabileceği bir servis burada yoktur.
 
 ## Teknoloji Yığını
 
 - Rust (bu crate) — elyazması veri modeli, Markdown+YAML ayrıştırma, dosya izleme (`notify`), JSON-RPC sunucusu
-- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts)) — masaüstü client'ı
+- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/mythoside/mythoside-ts)) — masaüstü client'ı
 - Yerel indeksleme için SQLite + FTS5 (planlandı, henüz başlanmadı)
 - Özelleştirilmiş web tabanlı metin editörü (ProseMirror/Monaco tabanlı) (planlandı, `mythoside-ts`'de)
 
@@ -46,7 +46,7 @@ cargo build   # mythoside-core kütüphanesini + binary'sini derler
 cargo test    # format/watcher/RPC test paketini çalıştırır
 ```
 
-Bu crate, [`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts) tarafından bir bağımlılık olarak kullanılır (ve binary'si bir sidecar olarak paketlenir) — uygulamayı fiilen orada çalıştırırsınız. Gelişmeleri [Issues](../../issues) ve [Discussions](../../discussions) üzerinden takip edebilirsiniz.
+Bu crate, [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) tarafından bir bağımlılık olarak kullanılır (ve binary'si bir sidecar olarak paketlenir) — uygulamayı fiilen orada çalıştırırsınız. Gelişmeleri [Issues](../../issues) ve [Discussions](../../discussions) üzerinden takip edebilirsiniz.
 
 ## Lisans
 
@@ -56,8 +56,8 @@ Mythos, [Functional Source License, v1.1 (ALv2 Future License)](./LICENSE.md) ka
 
 ## Katkıda Bulunma
 
-Bir pull request açmadan önce [CONTRIBUTING.md](https://github.com/Mythos-IDE/.github/blob/main/CONTRIBUTING.md) belgesini inceleyin.
+Bir pull request açmadan önce [CONTRIBUTING.md](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) belgesini inceleyin.
 
 ## Güvenlik
 
-Güvenlik açıklarını nasıl bildireceğinizi öğrenmek için [SECURITY.md](https://github.com/Mythos-IDE/.github/blob/main/SECURITY.md) belgesini inceleyin.
+Güvenlik açıklarını nasıl bildireceğinizi öğrenmek için [SECURITY.md](https://github.com/mythoside/.github/blob/main/SECURITY.md) belgesini inceleyin.

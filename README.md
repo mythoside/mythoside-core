@@ -5,8 +5,8 @@
 # Mythos Core
 
 [![License: FSL-1.1-ALv2](https://img.shields.io/badge/license-FSL--1.1--ALv2-blue)](./LICENSE.md)
-[![GitHub Discussions](https://img.shields.io/github/discussions/Mythos-IDE/mythoside-core)](https://github.com/Mythos-IDE/mythoside-core/discussions)
-[![GitHub issues](https://img.shields.io/github/issues/Mythos-IDE/mythoside-core)](https://github.com/Mythos-IDE/mythoside-core/issues)
+[![GitHub Discussions](https://img.shields.io/github/discussions/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/discussions)
+[![GitHub issues](https://img.shields.io/github/issues/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/issues)
 
 <p align="center">English · <a href="./README.TR.md">Türkçe</a></p>
 
@@ -44,7 +44,7 @@ Mythos is split into a local client and a local server, in two repos:
   runs as a small local server process, speaking a JSON-RPC-ish protocol over
   its own stdin/stdout — never a network port, so nothing on the machine can
   reach it but the process that spawned it.
-- [`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts) — the desktop
+- [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — the desktop
   client. A Tauri + TypeScript app that spawns this crate's binary as a
   managed sidecar process and proxies to it. All UI, editor, and rendering
   work happens there; this repo has none of it.
@@ -59,7 +59,7 @@ here a browser tab or another local process could probe.
 
 - Rust (this crate) — manuscript data model, Markdown+YAML parsing, file
   watching (`notify`), JSON-RPC server
-- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts)) — the desktop client
+- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/mythoside/mythoside-ts)) — the desktop client
 - SQLite + FTS5 for local indexing (planned, not started)
 - A customized web-based text editor (ProseMirror/Monaco-based) (planned, in `mythoside-ts`)
 
@@ -71,7 +71,7 @@ cargo test    # runs the format/watcher/RPC test suite
 ```
 
 This crate is consumed as a dependency (and its binary bundled as a sidecar)
-by [`mythoside-ts`](https://github.com/Mythos-IDE/mythoside-ts) — that's
+by [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — that's
 where you'd actually run the app. Track progress in
 [Issues](../../issues) and [Discussions](../../discussions).
 
@@ -89,8 +89,8 @@ the license above — see [LICENSE.md](./LICENSE.md) for details.
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/Mythos-IDE/.github/blob/main/CONTRIBUTING.md) before opening a pull request.
+See [CONTRIBUTING.md](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) before opening a pull request.
 
 ## Security
 
-See [SECURITY.md](https://github.com/Mythos-IDE/.github/blob/main/SECURITY.md) for how to report vulnerabilities.
+See [SECURITY.md](https://github.com/mythoside/.github/blob/main/SECURITY.md) for how to report vulnerabilities.
