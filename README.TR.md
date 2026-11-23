@@ -1,63 +1,92 @@
-<div align="center">
-  <img src="assets/readme/hero.svg" alt="Mythos Core Motoru" width="100%" />
-</div>
+<p align="center">
+  <img src="assets/readme/hero.svg" width="100%" alt="mythoside-core: YAML frontmatter'lı bir karakter dosyası ve motorla stdin/stdout üzerinden gidip gelen bir JSON isteği ve yanıtı">
+</p>
 
-# Mythos Core
+<p align="center">
+  <a href="https://github.com/mythoside">Mythos</a> · <a href="https://github.com/mythoside/mythoside-ts">Masaüstü uygulaması</a> · <a href="https://mythoside.com">mythoside.com</a> · <a href="./README.md">English</a> · Türkçe
+</p>
 
-[![License: FSL-1.1-ALv2](https://img.shields.io/badge/license-FSL--1.1--ALv2-blue)](./LICENSE.md)
-[![GitHub Discussions](https://img.shields.io/github/discussions/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/discussions)
-[![GitHub issues](https://img.shields.io/github/issues/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/issues)
+<p align="center">
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-A35A3C" alt="Lisans: FSL-1.1-ALv2"></a>
+</p>
 
-<p align="center"><a href="./README.md">English</a> · Türkçe</p>
+Seri yazmak için bir masaüstü uygulaması olan [Mythos](https://github.com/mythoside)'un motoru. Müsvedde onun sorumluluğunda: veri modeli, Markdown + YAML dosya formatı, dosya izleme ve bir seri, kitap, bölüm, karakter, mekân ya da not üzerindeki her oluşturma, okuma, güncelleme ve silme işlemi. Arayüzü yok, Tauri'ye bağımlı değil.
 
-**Karmaşık dünyalar inşa eden romancılar için geliştirilmiş bir yazar IDE'si.**
+> **Erken geliştirme aşamasında.** Format, dosya izleyici ve RPC sunucusu çalışıyor ve testleri var. Arama dizini ve süreklilik kontrollerine henüz başlanmadı.
 
-Mythos; Scrivener gibi araçların yapılandırılmış, uzun soluklu yazma yaklaşımını bir yazılım IDE'sinin akıllı ve bağlam odaklı deneyimiyle birleştirir. Dünyalarını tutarlı tutmak için beş farklı uygulamayı birbirine bağlamaktan yorulmuş fantastik, bilimkurgu ve epik kurgu yazarları için özel olarak tasarlanmıştır.
+## Neyi okuyup yazar
 
-> Durum: Erken geliştirme aşaması. Hatalar ve eksiklikler olabilir. Katkı ve geri bildirimleriniz memnuniyetle karşılanır.
+Bir seri bir klasördür. Başka hiçbir yerde bir şey tutulmaz.
 
-## Neden Mythos?
-
-- **Kurgu için özel yapısal hiyerarşi** — Kendi kendinize yapılandırmak zorunda kaldığınız genel taslak oluşturucuların aksine, yerleşik olarak gelen Seri → Kitap → Bölüm → Sahne hiyerarşisi.
-- **Akıllı dünya inşası** — Taslağınızdan ayrılmadan `@KarakterAdi` yazarak anında bağlamsal bir profil kartı alın.
-- **Her zaman yerel öncelikli (Local-first)** — Gerçek bilgi kaynağı, diskinizdeki düz Markdown + YAML üst verileridir (frontmatter). Platforma bağımlılık veya "bu şirket kapanırsa romanıma ne olur?" endişesi yoktur.
-- **Arka planda hızlı çalışır** — Yerel bir SQLite (FTS5) indeksi, çapraz referansları ve ilişki sorgularını ("Hangi klan Bölüm 4'te görünüyor?") hiçbir zaman ana bilgi kaynağı hâline gelmeden anında gerçekleştirir.
-
-## Repo Yapısı
-
-Mythos, biri yerel client biri yerel sunucu olan iki ayrı repo'ya bölünmüştür:
-
-- **Bu repo (`mythoside-core`)** — motor katmanı. Hiçbir Tauri veya arayüz bağımlılığı olmayan bağımsız bir Rust crate'i (kütüphane + binary): elyazması veri modeli, Markdown+YAML dosya formatı, native dosya izleme, ve entity işlemleri (karakter/sahne vb. oluşturma/okuma/güncelleme/silme). Kendi stdin/stdout'u üzerinden JSON-RPC benzeri bir protokol konuşan küçük bir yerel sunucu process'i olarak çalışır — asla bir ağ portu açmaz, bu yüzden kendisini başlatan process dışında makinedeki hiçbir şey ona erişemez.
-- [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — masaüstü client'ı. Bu crate'in binary'sini yönetilen bir "sidecar" process olarak başlatan ve ona proxy yapan bir Tauri + TypeScript uygulaması. Tüm arayüz, editör ve render işi orada gerçekleşir; bu repo'da hiçbiri yok.
-
-Neden tek binary yerine iki process: gerçek yazma/parse mantığını yeniden kullanılabilir ve bağımsız test edilebilir tutar (buradaki `cargo test` arayüz, Tauri veya pencere gerektirmez), ve local-first garantisini sadece bir vaat değil yapısal bir gerçek hâline getirir — bu crate asla bir port dinlemez, yani bir tarayıcı sekmesinin ya da başka bir yerel process'in araştırabileceği bir servis burada yoktur.
-
-## Teknoloji Yığını
-
-- Rust (bu crate) — elyazması veri modeli, Markdown+YAML ayrıştırma, dosya izleme (`notify`), JSON-RPC sunucusu
-- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/mythoside/mythoside-ts)) — masaüstü client'ı
-- Yerel indeksleme için SQLite + FTS5 (planlandı, henüz başlanmadı)
-- Özelleştirilmiş web tabanlı metin editörü (ProseMirror/Monaco tabanlı) (planlandı, `mythoside-ts`'de)
-
-## Başlarken
-
-```bash
-cargo build   # mythoside-core kütüphanesini + binary'sini derler
-cargo test    # format/watcher/RPC test paketini çalıştırır
+```text
+the-ashfall-cycle/
+├── series.yaml
+├── embergate/
+│   ├── book.yaml
+│   └── chapters/
+│       └── 12-the-fall.md
+├── the-drowned-throne/
+│   ├── book.yaml
+│   └── chapters/
+│       ├── 1-saltlight.md
+│       └── 3-the-tidewatch.md
+├── characters/
+│   ├── lord-corvath.md
+│   └── sera-of-vael.md
+├── locations/
+└── notes/
 ```
 
-Bu crate, [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) tarafından bir bağımlılık olarak kullanılır (ve binary'si bir sidecar olarak paketlenir) — uygulamayı fiilen orada çalıştırırsınız. Gelişmeleri [Issues](../../issues) ve [Discussions](../../discussions) üzerinden takip edebilirsiniz.
+Her varlık bir Markdown dosyasıdır: alanları YAML frontmatter'da, metni ya da biyografisi gövdede durur.
+
+## Uygulama onunla nasıl konuşur
+
+Motor uygulamanın alt süreci olarak çalışır. stdin'den satır başına bir JSON isteği okur, stdout'a tek satırlık bir yanıt yazar:
+
+```text
+in   {"id": 7, "method": "list_characters", "params": {"projectDir": "…"}}
+out  {"id": 7, "result": [ … ]}
+```
+
+`id` taşımayan satırlar, diskte bir dosya değiştiğinde dosya izleyicinin gönderdiği olaylardır. Motor hiçbir zaman ağ portu açmaz; ona yalnızca onu başlatan süreç ulaşabilir. Ayrı bir süreç olması, buradaki `cargo test`'in pencereye, webview'a ya da arayüze ihtiyaç duymaması anlamına da gelir.
+
+<details>
+<summary>28 metodun tamamı</summary>
+
+| Varlık | Metotlar |
+| --- | --- |
+| Seri | `create_series` `get_series` `list_series` `update_series` `delete_series` |
+| Kitap | `create_book` `list_books` `delete_book` |
+| Bölüm | `create_chapter` `list_chapters` `update_chapter` `update_chapter_content` `move_chapter` `delete_chapter` |
+| Karakter | `create_character` `list_characters` `update_character` `delete_character` |
+| Mekân | `create_location` `list_locations` `update_location` `delete_location` |
+| Not | `create_note` `list_notes` `update_note` `delete_note` |
+| İzleyici | `start_watching` `stop_watching` |
+
+</details>
+
+## Derleme ve test
+
+```bash
+cargo build   # kütüphane + mythoside-core binary'si
+cargo test    # format, izleyici ve RPC testleri
+```
+
+Uygulamanın kendisini çalıştırmak için [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) reposunu kullan. Bu binary'yi derleyip Tauri sidecar'ı olarak paketler.
+
+## Klasör yapısı
+
+```text
+crates/common/      slugify, zaman damgaları
+crates/narrative/   alan modeli: Series, Book, Chapter, Character, Location, Note
+crates/parser/      Markdown + YAML frontmatter okuma ve yazma
+crates/workspace/   dosya işlemleri ve dosya izleyici
+crates/rpc/         stdin/stdout istek döngüsü
+docs/architecture/  hangi crate'e ne girer, ne girmez
+```
 
 ## Lisans
 
-Mythos, [Functional Source License, v1.1 (ALv2 Future License)](./LICENSE.md) kapsamında kaynak kodları erişilebilir durumdadır. Özetle: Kendi yazma süreçleriniz için uygulamayı özgürce kullanabilir, inceleyebilir, değiştirebilir ve kendi sunucunuzda barındırabilirsiniz; sadece bunu rakip bir ticari ürün veya hizmet olarak yeniden paketleyemezsiniz. Her sürüm, yayınlandıktan iki yıl sonra otomatik olarak Apache 2.0 lisansına dönüşür.
+[Functional Source License 1.1, ALv2 Future License](./LICENSE.md) ile kaynak kodu erişilebilir. Kendi yazın için de dahil olmak üzere kullanabilir, okuyabilir, değiştirebilir ve kendi bilgisayarında barındırabilirsin. Rakip bir ticari ürün ya da hizmet olarak sunamazsın. Her sürüm yayımlandıktan iki yıl sonra Apache 2.0'a dönüşür. Mythos adı ve logosu lisansın kapsamında değildir.
 
-"Mythos" ve logosu projenin ticari markalarıdır ve yukarıdaki lisans kapsamında değildir — ayrıntılar için [LICENSE.md](./LICENSE.md) dosyasına bakın.
-
-## Katkıda Bulunma
-
-Bir pull request açmadan önce [CONTRIBUTING.md](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) belgesini inceleyin.
-
-## Güvenlik
-
-Güvenlik açıklarını nasıl bildireceğinizi öğrenmek için [SECURITY.md](https://github.com/mythoside/.github/blob/main/SECURITY.md) belgesini inceleyin.
+[Katkı](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) · [Güvenlik](https://github.com/mythoside/.github/blob/main/SECURITY.md) · [Discussions](https://github.com/mythoside/mythoside-core/discussions)

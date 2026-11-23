@@ -1,96 +1,92 @@
-<div align="center">
-  <img src="assets/readme/hero.svg" alt="Mythos Core Engine" width="100%" />
-</div>
+<p align="center">
+  <img src="assets/readme/hero.svg" width="100%" alt="mythoside-core: a character file with YAML frontmatter, and one JSON request and response exchanged with the engine over stdin and stdout">
+</p>
 
-# Mythos Core
+<p align="center">
+  <a href="https://github.com/mythoside">Mythos</a> · <a href="https://github.com/mythoside/mythoside-ts">Desktop app</a> · <a href="https://mythoside.com">mythoside.com</a> · English · <a href="./README.TR.md">Türkçe</a>
+</p>
 
-[![License: FSL-1.1-ALv2](https://img.shields.io/badge/license-FSL--1.1--ALv2-blue)](./LICENSE.md)
-[![GitHub Discussions](https://img.shields.io/github/discussions/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/discussions)
-[![GitHub issues](https://img.shields.io/github/issues/mythoside/mythoside-core)](https://github.com/mythoside/mythoside-core/issues)
+<p align="center">
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-A35A3C" alt="License: FSL-1.1-ALv2"></a>
+</p>
 
-<p align="center">English · <a href="./README.TR.md">Türkçe</a></p>
+The engine behind [Mythos](https://github.com/mythoside), a desktop app for writing a series. It owns the manuscript: the data model, the Markdown + YAML file format, file watching, and every create, read, update and delete on a series, book, chapter, character, location or note. It has no UI and no Tauri dependency.
 
-**A writer's IDE for novelists building complex worlds.**
+> **Early development.** The format, the file watcher and the RPC server work and are tested. The search index and continuity checks are not started yet.
 
-Mythos merges the structured, long-form writing approach of tools like
-Scrivener with the intelligent, context-aware experience of a software IDE —
-purpose-built for fantasy, sci-fi, and epic fiction writers who are tired of
-stitching together five different apps to keep their world consistent.
+## What it reads and writes
 
-> Status: early development. Expect rough edges. Contributions and feedback
-> are very welcome.
+A series is a folder. Nothing lives anywhere else.
 
-## Why Mythos?
-
-- **Structural hierarchy built for fiction** — Series → Book → Chapter →
-  Scene, not a generic outliner you have to configure yourself.
-- **Intelligent world-building** — type `@CharacterName` and get an instant
-  contextual profile card without leaving your draft.
-- **Local-first, always** — the source of truth is plain Markdown + YAML
-  frontmatter on your disk. No lock-in, no "what happens to my novel if this
-  company shuts down."
-- **Fast under the hood** — a local SQLite (FTS5) index makes
-  cross-referencing and relationship queries ("which clan appears in Chapter
-  4?") instant, without ever becoming the source of truth itself.
-
-## Repository layout
-
-Mythos is split into a local client and a local server, in two repos:
-
-- **This repo (`mythoside-core`)** — the engine. A standalone Rust crate
-  (library + binary) with no Tauri or UI dependency at all: the manuscript
-  data model, the Markdown+YAML file format, native filesystem watching, and
-  entity operations (create/read/update/delete a character, scene, etc.). It
-  runs as a small local server process, speaking a JSON-RPC-ish protocol over
-  its own stdin/stdout — never a network port, so nothing on the machine can
-  reach it but the process that spawned it.
-- [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — the desktop
-  client. A Tauri + TypeScript app that spawns this crate's binary as a
-  managed sidecar process and proxies to it. All UI, editor, and rendering
-  work happens there; this repo has none of it.
-
-Why two processes instead of one binary: it keeps the actual writing/parsing
-logic reusable and independently testable (`cargo test` here needs no UI, no
-Tauri, no window), and it means the local-first guarantee is structural, not
-just a promise — this crate never listens on a port, so there is no service
-here a browser tab or another local process could probe.
-
-## Tech stack
-
-- Rust (this crate) — manuscript data model, Markdown+YAML parsing, file
-  watching (`notify`), JSON-RPC server
-- [Tauri](https://tauri.app/) + TypeScript ([`mythoside-ts`](https://github.com/mythoside/mythoside-ts)) — the desktop client
-- SQLite + FTS5 for local indexing (planned, not started)
-- A customized web-based text editor (ProseMirror/Monaco-based) (planned, in `mythoside-ts`)
-
-## Getting started
-
-```bash
-cargo build   # builds the mythoside-core library + binary
-cargo test    # runs the format/watcher/RPC test suite
+```text
+the-ashfall-cycle/
+├── series.yaml
+├── embergate/
+│   ├── book.yaml
+│   └── chapters/
+│       └── 12-the-fall.md
+├── the-drowned-throne/
+│   ├── book.yaml
+│   └── chapters/
+│       ├── 1-saltlight.md
+│       └── 3-the-tidewatch.md
+├── characters/
+│   ├── lord-corvath.md
+│   └── sera-of-vael.md
+├── locations/
+└── notes/
 ```
 
-This crate is consumed as a dependency (and its binary bundled as a sidecar)
-by [`mythoside-ts`](https://github.com/mythoside/mythoside-ts) — that's
-where you'd actually run the app. Track progress in
-[Issues](../../issues) and [Discussions](../../discussions).
+Each entity is a Markdown file whose YAML frontmatter holds its fields and whose body is the prose or bio.
+
+## How the app talks to it
+
+The engine runs as a child process of the app and reads one JSON request per line on stdin, then answers with one line on stdout:
+
+```text
+in   {"id": 7, "method": "list_characters", "params": {"projectDir": "…"}}
+out  {"id": 7, "result": [ … ]}
+```
+
+Lines without an `id` are events from the file watcher, sent when a file changes on disk. The engine never opens a network port, so only the process that started it can reach it. Keeping it a separate process also means `cargo test` here needs no window, no webview and no UI.
+
+<details>
+<summary>All 28 methods</summary>
+
+| Entity | Methods |
+| --- | --- |
+| Series | `create_series` `get_series` `list_series` `update_series` `delete_series` |
+| Book | `create_book` `list_books` `delete_book` |
+| Chapter | `create_chapter` `list_chapters` `update_chapter` `update_chapter_content` `move_chapter` `delete_chapter` |
+| Character | `create_character` `list_characters` `update_character` `delete_character` |
+| Location | `create_location` `list_locations` `update_location` `delete_location` |
+| Note | `create_note` `list_notes` `update_note` `delete_note` |
+| Watcher | `start_watching` `stop_watching` |
+
+</details>
+
+## Build and test
+
+```bash
+cargo build   # library + the mythoside-core binary
+cargo test    # format, watcher and RPC tests
+```
+
+To run the app itself, use [`mythoside-ts`](https://github.com/mythoside/mythoside-ts). It builds this binary and bundles it as a Tauri sidecar.
+
+## Layout
+
+```text
+crates/common/      slugify, timestamps
+crates/narrative/   the domain model: Series, Book, Chapter, Character, Location, Note
+crates/parser/      Markdown + YAML frontmatter in and out
+crates/workspace/   file operations and the file watcher
+crates/rpc/         the stdin/stdout request loop
+docs/architecture/  what belongs in each crate and what doesn't
+```
 
 ## License
 
-Mythos is source-available under the
-[Functional Source License, v1.1 (ALv2 Future License)](./LICENSE.md). In
-short: you're free to use, read, modify, and self-host it for your own
-writing — you just can't repackage it as a competing commercial product or
-service. Each release converts to Apache 2.0 automatically two years after
-publication.
+Source-available under the [Functional Source License 1.1, ALv2 Future License](./LICENSE.md). You can use, read, modify and self-host it, including for your own writing. You can't offer it as a competing commercial product or service. Each release becomes Apache 2.0 two years after it ships. The Mythos name and logo are not covered by the license.
 
-"Mythos" and its logo are trademarks of the project and are not covered by
-the license above — see [LICENSE.md](./LICENSE.md) for details.
-
-## Contributing
-
-See [CONTRIBUTING.md](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) before opening a pull request.
-
-## Security
-
-See [SECURITY.md](https://github.com/mythoside/.github/blob/main/SECURITY.md) for how to report vulnerabilities.
+[Contributing](https://github.com/mythoside/.github/blob/main/CONTRIBUTING.md) · [Security](https://github.com/mythoside/.github/blob/main/SECURITY.md) · [Discussions](https://github.com/mythoside/mythoside-core/discussions)

@@ -1,38 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="t d">
-  <title id="t">Mythos Core — the Rust engine</title>
-  <desc id="d">Mythos Core is a standalone Rust engine that parses and watches your manuscript and speaks JSON-RPC over its own stdin/stdout — it never opens a network port.</desc>
-
-  <rect width="1200" height="360" rx="24" fill="#0B0E15"/>
-  <rect x="1" y="1" width="1198" height="358" rx="23" fill="none" stroke="#20242f"/>
-  <path d="M56 74H1144M56 286H1144" stroke="#1b2130"/>
-
-  <text x="56" y="50" fill="#C9A24B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="3">THE RUST ENGINE BEHIND MYTHOS</text>
-  <text x="1144" y="50" text-anchor="end" fill="#7E869A" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="2">MYTHOSIDE / CORE</text>
-
-  <text x="56" y="150" fill="#E8DFCB" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="600">Mythos Core</text>
-  <text x="58" y="192" fill="#B9B4A4" font-family="Georgia, 'Times New Roman', serif" font-size="21">Parses, watches, and serves your world —</text>
-  <text x="58" y="220" fill="#B9B4A4" font-family="Georgia, 'Times New Roman', serif" font-size="21">and never opens a network port.</text>
-  <text x="58" y="262" fill="#8b93a3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.5">RUST &#183; MARKDOWN + YAML &#183; JSON-RPC OVER STDIO</text>
-
-  <!-- two-process architecture motif -->
-  <g transform="translate(700 108)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
-    <text x="0" y="0" fill="#7E869A" font-size="11" letter-spacing="1.5">TWO PROCESSES, ON PURPOSE</text>
-
-    <rect x="0" y="20" width="176" height="52" rx="6" fill="#0E1220" stroke="#8A7434"/>
-    <text x="88" y="44" text-anchor="middle" fill="#C9A24B" font-size="13" font-weight="600">mythoside-core</text>
-    <text x="88" y="61" text-anchor="middle" fill="#7E869A" font-size="10">Rust engine</text>
-
-    <text x="205" y="42" text-anchor="middle" fill="#C9A24B" font-size="12" letter-spacing="1">stdio</text>
-    <path d="M184 52H226" stroke="#C9A24B" stroke-width="1.5"/>
-    <path d="M191 47l-6 5 6 5M219 47l6 5-6 5" fill="none" stroke="#C9A24B" stroke-width="1.5"/>
-
-    <rect x="234" y="20" width="176" height="52" rx="6" fill="#0E1220" stroke="#20242f"/>
-    <text x="322" y="44" text-anchor="middle" fill="#E8DFCB" font-size="13" font-weight="600">Mythos.app</text>
-    <text x="322" y="61" text-anchor="middle" fill="#7E869A" font-size="10">Tauri desktop client</text>
-
-    <!-- no network port -->
-    <text x="0" y="112" fill="#D2664F" font-size="12" text-decoration="line-through">&#10005; 127.0.0.1:&lt;port&gt;</text>
-    <text x="0" y="134" fill="#6b7386" font-size="11">nothing on the machine can reach it but</text>
-    <text x="0" y="150" fill="#6b7386" font-size="11">the process that spawned it.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc">
+  <title id="title">mythoside-core, the Mythos engine</title>
+  <desc id="desc">A character file with YAML frontmatter, and one JSON request and response exchanged with the engine over stdin and stdout.</desc>
+  <defs>
+    <mask id="writing" maskUnits="userSpaceOnUse" x="-24" y="-10" width="600" height="600">
+      <rect x="-24" y="-10" width="600" height="600" fill="#fff"/>
+      <path d="M214 248L388 262M186 298L406 320M162 348L326 370" stroke="#000" stroke-width="20" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <rect width="1200" height="400" rx="24" fill="#F8F6F0"/>
+  <rect x="0.5" y="0.5" width="1199" height="399" rx="23.5" fill="none" stroke="#E5DFD4"/>
+<g transform="translate(64 56) scale(0.0667) translate(24 10)">
+    <polygon points="217,4 88,356 226,186 390,184 506,500 104,395 6,494 26,205 49,139" mask="url(#writing)" fill="#A35A3C" stroke="#A35A3C" stroke-width="28" stroke-linejoin="round"/>
+    <path d="M120 446L482 545M170 498L452 575" stroke="#A35A3C" stroke-width="22" stroke-linecap="round"/>
   </g>
+  <text x="116" y="85" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#8A847B" text-anchor="start">mythoside / mythoside-core</text>
+  <text x="64" y="172" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="54" font-weight="500" fill="#2A2724" text-anchor="start">mythoside-core</text>
+  <text x="64" y="226" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="24" font-weight="400" fill="#55504A" text-anchor="start">The engine that reads and writes</text>
+  <text x="64" y="260" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="24" font-weight="400" fill="#55504A" text-anchor="start">your manuscript files on disk</text>
+  <text x="64" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#8A847B" text-anchor="start">Rust · 28 methods over stdio · no network port</text>
+  <rect x="600" y="48" width="536" height="304" rx="14" fill="#FFFFFF" stroke="#E5DFD4"/>
+  <text x="628" y="92" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#8A847B" text-anchor="start">characters/sera-of-vael.md</text>
+  <text x="628" y="128" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#8A847B" text-anchor="start">---</text>
+  <text x="628" y="156" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#2A2724" text-anchor="start">name: Sera of Vael</text>
+  <text x="628" y="184" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#2A2724" text-anchor="start">role: protagonist</text>
+  <text x="628" y="212" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#8A847B" text-anchor="start">---</text>
+  <line x1="628" y1="256" x2="1108" y2="256" stroke="#E5DFD4"/>
+  <text x="628" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#A35A3C" text-anchor="start" xml:space="preserve">in </text>
+  <text x="672" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#2A2724" text-anchor="start">{&quot;id&quot;:7,&quot;method&quot;:&quot;list_characters&quot;}</text>
+  <text x="628" y="324" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#A35A3C" text-anchor="start">out</text>
+  <text x="672" y="324" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="400" fill="#2A2724" text-anchor="start">{&quot;id&quot;:7,&quot;result&quot;:[{&quot;name&quot;:&quot;Sera…</text>
 </svg>
