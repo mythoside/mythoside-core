@@ -12,7 +12,7 @@
 
 Seri yazmak için bir masaüstü uygulaması olan [Mythos](https://github.com/mythoside)'un motoru. Müsvedde onun sorumluluğunda: veri modeli, Markdown + YAML dosya formatı, dosya izleme ve bir seri, kitap, bölüm, karakter, mekân ya da not üzerindeki her oluşturma, okuma, güncelleme ve silme işlemi. Arayüzü yok, Tauri'ye bağımlı değil.
 
-> **Erken geliştirme aşamasında.** Format, dosya izleyici ve RPC sunucusu çalışıyor ve testleri var. Arama dizini ve süreklilik kontrollerine henüz başlanmadı.
+> **Erken geliştirme aşamasında.** Format, dosya izleyici ve RPC sunucusu çalışıyor ve testleri var. Süreklilik kontrolleri sıradaki iş ve henüz bu repoda yok. Bir arama dizini planlanıyor.
 
 ## Neyi okuyup yazar
 

@@ -12,7 +12,7 @@
 
 The engine behind [Mythos](https://github.com/mythoside), a desktop app for writing a series. It owns the manuscript: the data model, the Markdown + YAML file format, file watching, and every create, read, update and delete on a series, book, chapter, character, location or note. It has no UI and no Tauri dependency.
 
-> **Early development.** The format, the file watcher and the RPC server work and are tested. The search index and continuity checks are not started yet.
+> **Early development.** The format, the file watcher and the RPC server work and are tested. Continuity checks are being built next and aren't in this repo yet. A search index is planned.
 
 ## What it reads and writes
 
